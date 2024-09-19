@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAP_API_Conversion", "SOAP_API_Conversion\SOAP_API_Conversion.csproj", "{10EC2C2D-69F2-4A8B-B350-29C29899C1DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10EC2C2D-69F2-4A8B-B350-29C29899C1DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10EC2C2D-69F2-4A8B-B350-29C29899C1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10EC2C2D-69F2-4A8B-B350-29C29899C1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10EC2C2D-69F2-4A8B-B350-29C29899C1DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CFB1DB31-D4E5-44EC-B5E7-BCEA18EC8C84}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+@SOAP_API_Conversion_HostAddress = http://localhost:5219
+
+GET {{SOAP_API_Conversion_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
