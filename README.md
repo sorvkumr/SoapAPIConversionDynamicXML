@@ -1,54 +1,67 @@
 # SOAP_API_Conversion
 **Purpose**:
 
-This Node.js application acts as a bridge between SOAP and REST APIs. It utilizes Express.js for routing and handling HTTP requests, a JSON converter library to facilitate data transformations, and JavaScript for core logic. The application converts incoming JSON requests into SOAP XML format, sends them to a SOAP API server, and then converts the received XML response back into JSON format.
+This C# .NET Core Web API application serves as a bridge between SOAP and REST APIs. It utilizes ASP.NET Core Web API for handling HTTP requests, a JSON converter library to facilitate data transformations, and an HTTP request handler to interact with the SOAP API server. The application converts incoming JSON requests into SOAP XML format, sends them to a SOAP API server, and then converts the received XML response back into JSON format.
 
 **Functionality**:
 
-Express.js Routing: Defines routes to handle incoming HTTP requests, specifically for processing JSON data.
+ASP.NET Core Web API: Defines routes to handle incoming HTTP requests, specifically for processing JSON data.
 JSON to XML Conversion: Employs a JSON converter library to transform incoming JSON data into the corresponding XML format required by the target SOAP API.
-SOAP API Interaction: Sends the converted XML request to the specified SOAP API endpoint using the Node.js http or https module.
+SOAP API Interaction: Utilizes an HTTP request handler to send the converted XML request to the specified SOAP API endpoint.
 XML to JSON Conversion: Processes the XML response from the SOAP API and converts it back into JSON format using a suitable XML parsing library.
 Dependencies:
 
-Express.js: A popular Node.js web framework for building web applications.
-JSON Converter Library: A library specifically designed for converting JSON data to XML and vice versa (e.g., xml2js, js2xml).
-XML Parsing Library: A library for parsing XML data (e.g., xml2js, sax).
-Node.js HTTP or HTTPS Module: For making HTTP requests to the SOAP API server.
+**ASP.NET Core Web API**
 
-**Additional Notes**:
+A framework for building HTTP-based APIs in .NET Core.
+JSON Converter Library: A library specifically designed for converting JSON data to XML and vice versa (e.g., Newtonsoft.Json, System.Text.Json).
+HTTP Request Handler: A library or class for making HTTP requests to the SOAP API server (e.g., HttpClient, RestSharp).
+XML Parsing Library: A library for parsing XML data (e.g., System.Xml, XmlDocument).
+Additional Notes:
+
 Consider using a dedicated library for SOAP API interactions if available, as it can simplify the process and provide additional features.
 Ensure that the JSON converter and XML parsing libraries are compatible with each other and meet your specific requirements.
 Implement error handling and logging mechanisms to monitor the application's behavior and troubleshoot issues.
 Example Usage:
 
-**JavaScript**
+C#
 ```
-const express = require('express');
-const xml2js = require('xml2js');
-const json2xml = require('json2xml');
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Xml;
 
-const app = express();
-const port = 3000;
+namespace SoapApiConversion
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class ConvertController : ControllerBase
+    {
+        private readonly HttpClient _httpClient;
 
-app.post('/convert', (req, res) => {
-  // Convert JSON to XML
-  const xml = json2xml(req.body, { compact: true });
+        public ConvertController(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
 
-  // Send XML to SOAP API
-  // ...
+        [HttpPost]
+        public async Task<IActionResult> Convert([FromBody] dynamic request)
+        {
+            // Convert JSON to XML
+            var xml = JsonConvert.SerializeXmlNode(JToken.Parse(JsonConvert.SerializeObject(request)));
 
-  // Convert XML to JSON
-  xml2js.parseString(xmlResponse, (err, result) => {
-    if (err) {
-      // Handle error
-    } else {
-      res.json(result);
+            // Send XML to SOAP API
+            var response = await _httpClient.PostAsync("https://your-soap-api-endpoint", new StringContent(xml, System.Text.Encoding.UTF8, "text/xml"));
+
+            // Convert XML to JSON
+            var xmlString = await response.Content.ReadAsStringAsync();
+            var xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(xmlString);
+
+            var json = JsonConvert.SerializeXmlNode(xmlDocument);
+
+            return Ok(json);
+        }
     }
-  });
-});
-
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+}
 ```
